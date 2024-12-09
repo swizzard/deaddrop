@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 pub type DDDb = Arc<sled::Db>;
 
+#[derive(Debug)]
 pub struct RawKey<'a> {
     key: &'a [u8],
     pass: &'a [u8],
