@@ -2,6 +2,26 @@
 <html lang="en">
   <head>
     <title>{% block title %}{{ title }} - My Site{% endblock %}</title>
+    <style>
+    body {
+      background: #000;
+      color: #33f633;
+      width: 1000px;
+      height: 1000px;
+    }
+    p {
+      font-size: 20px;
+      width: 50%;
+      height: 50%;
+    }
+    p.error {
+      border: 1px solid #f00;
+    }
+    p.message {
+      text-align: center;
+      font-weight: bold;
+    }
+    </style>
     {% block head %}{% endblock %}
   </head>
 
