@@ -1,5 +1,8 @@
 use crate::db::{get_once, DDDb, RawKey};
-use axum::extract::{Form, Query, State};
+use axum::{
+    extract::{Form, Query, State},
+    http::StatusCode,
+};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -29,21 +32,26 @@ impl Get {
 pub async fn api_insert(
     State(db): State<DDDb>,
     Form(Insert { key, pwd, text }): Form<Insert>,
-) -> String {
+) -> Result<(StatusCode, String), (StatusCode, String)> {
     let key = RawKey::new(key.as_bytes(), pwd.as_bytes());
-    crate::db::insert(&db, &key, text.as_bytes()).unwrap();
-    "ok".to_string()
+    match crate::db::insert(&db, &key, text.as_bytes()) {
+        Ok(_) => Ok((StatusCode::CREATED, "ok".to_string())),
+        Err(_) => Err((StatusCode::BAD_REQUEST, "bad request".to_string())),
+    }
 }
 
-pub async fn api_get(State(db): State<DDDb>, Query(g @ Get { .. }): Query<Get>) -> String {
+pub async fn api_get(
+    State(db): State<DDDb>,
+    Query(g @ Get { .. }): Query<Get>,
+) -> Result<String, (StatusCode, String)> {
     if let Some(k) = g.to_key() {
         let res = get_once(&db, &k).unwrap();
         if let Some(val) = res {
-            String::from_utf8(val).unwrap()
+            Ok(String::from_utf8(val).unwrap())
         } else {
-            "not found".to_string()
+            Err((StatusCode::NOT_FOUND, "not found".to_string()))
         }
     } else {
-        String::from("index")
+        Ok(String::from("index"))
     }
 }
