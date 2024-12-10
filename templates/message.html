@@ -1,4 +1,9 @@
 {% extends "base.html" %} {% block title %}Message{% endblock %}{% block content
 %}
-<p class="message">{{ message }}</p>
+<div class="message">
+  <p>Message Found:</p>
+  <p class="message">{{ message }}</p>
+</div>
+<p class="error">This message will self-destruct.</p>
+<a href="/">Back</a>
 {% endblock %}

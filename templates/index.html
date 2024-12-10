@@ -1,4 +1,53 @@
-{% extends "base.html" %} {% block title %} Dead Drop {% endblock %} {% block
-content %} {% block message %}{% endblock %}
-<p>Hello</p>
+{% extends "base.html" %} {% block title %} Dead Drop {% endblock %}
+{% block head %}
+<style>
+div.form-group {
+  padding: 10px 0px;
+}
+button#submit {
+  margin: 10px 0px;
+  background: #000;
+  color: #33f633;
+  font-family: monospace;
+
+}
+</style>
+{% endblock %}
+{% block content %}
+<div id="index">
+<h1>Dead Drop</h1>
+<div>
+  <h2>Retrieve Message</h2>
+  <form action="/" method="get">
+    <div class="form-group">
+    <label for="key">Key:</label>
+    <input type="text" id="key" name="key" required>
+    </div>
+    <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="pwd" required>
+    </div>
+    <button id="submit" type="submit">Submit</button>
+  </form>
+</div>
+<hr>
+<div>
+  <h2>Store Message</h2>
+  <form action="/" method="post">
+    <div class="form-group">
+    <label for="key">Key:</label>
+    <input type="text" id="key" name="key" required>
+    </div>
+    <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="pwd" required>
+    </div>
+    <div class="form-group">
+    <label for="text">Message:</label>
+    <input type="text" id="text" name="text" required>
+    </div>
+    <button type="submit">Submit</button>
+
+</div>
+</div>
 {% endblock %}
